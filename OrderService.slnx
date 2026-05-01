@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="OrderService.Api/OrderService.Api.csproj" />
+  <Project Path="OrderService.Application/OrderService.Application.csproj" Id="5eb577ab-3eb0-4a4f-ad04-cadecfd87bda" />
+  <Project Path="OrderService.Domain/OrderService.Domain.csproj" Id="f6ea9b95-29a3-4bbe-8152-36987fd97105" />
+  <Project Path="OrderService.Infrastructure/OrderService.Infrastructure.csproj" Id="5a939cee-39f4-4e04-9dbd-80e2afe1e50a" />
+  <Project Path="OrderService.Tests/OrderService.Tests.csproj" Id="afd6be2e-617f-4e87-92fa-ad8a17597557" />
+</Solution>
