@@ -25,3 +25,11 @@ Documento que centraliza as principais Observações/decisões técnicas durante
 
 **Justificativa:** Evitar anti-pattern de "Modelos Anêmicos". A lógica de negócio e variações tipo `não adicionar item sem estoque ou cálculo de totais` ficam dentro da própria entidade, fácil de manter bom pra testes unitários e consistência dos dados antes de qualquer persistência.
 
+
+## 4. Persistência e Mapeamento (EF Core)
+**Data:** 01/05/2026
+
+**Decisão:** O mapeamento do banco de dados foi isolado na camada de `Infrastructure` utilizando a Fluent API do EF Core (classes `IEntityTypeConfiguration`). Os itens do pedido (`OrderItem`).
+
+**Justificativa:** Manter o projeto `Domain` sem referência ao pacote do Entity Framework Core. O uso de (`OwnsMany`) reflete o conceito de DDD onde o `OrderItem` não possui ciclo de vida fora de sua raiz (`Order`).
+
