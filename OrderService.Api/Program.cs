@@ -1,10 +1,11 @@
-using System.Text;
-using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using OrderService.Api.Infrastructure;
 using OrderService.Application;
 using OrderService.Infrastructure;
+using OrderService.Infrastructure.Data.Context;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +50,10 @@ builder.Services.AddSwaggerGen(c =>
 // Register layers.
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+
+// Register Health Check service
+builder.Services.AddHealthChecks()
+       .AddDbContextCheck<OrderDbContext>("Database");
 
 // Register global exception handler.
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -104,5 +109,8 @@ if (app.Environment.EnvironmentName != "Testing")
   app.ApplyMigrations();
 }
 
+app.MapHealthChecks("/health");
+
 app.Run();
+
 public partial class Program { }
