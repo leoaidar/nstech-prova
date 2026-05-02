@@ -65,4 +65,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Aplica as migrations pendentes automaticamente ao iniciar a aplicação
+app.ApplyMigrations();
+
 app.Run();
