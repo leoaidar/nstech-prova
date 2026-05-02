@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrderService.Application.UseCases.Orders.Commands.CancelOrder;
@@ -67,6 +67,8 @@ public class OrdersController : ControllerBase
       [FromQuery] int page = 1,
       [FromQuery] int pageSize = 10)
   {
+    if (pageSize > 100) pageSize = 100;
+
     var query = new ListOrdersQuery(customerId, status, from, to, page, pageSize);
     var result = await _mediator.Send(query);
 

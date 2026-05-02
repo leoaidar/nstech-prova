@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OrderService.Domain.Entities;
+
+namespace OrderService.Infrastructure.Data.Mappings;
 
 public class ProductMap : IEntityTypeConfiguration<Product>
 {
