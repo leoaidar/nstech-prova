@@ -41,3 +41,19 @@ Documento que centraliza as principais Observações/decisões técnicas durante
 
 **Justificativa:** Tratar a idempotência verificando o estado atual da entidade (`Order.Status`) evita duplicação de processamento (como baixar o estoque duas vezes) sem a necessidade de introduzir complexidade de infra, como tabelas de chaves de idempotência ou cache distribuído.
 
+
+## 6. Porta de Entrada Mundo Externo (API REST) e Autenticação (JWT)
+**Data:** 01/05/2026
+
+**Decisão:** Os Controllers foram estruturados sob o padrão "Thin Controllers" , delegando toda a orquestração de requisições para o MediatR. A segurança da API foi implementada utilizando autenticação stateless com JWT via package `Microsoft.AspNetCore.Authentication.JwtBearer`.
+
+**Justificativa:** Manter Controllers sem regras de negócio garante que a camada de API seja responsável puramente por preocupações HTTP, S do SOLID, respeitando o Princípio da Responsabilidade Única (SRP). O JWT foi escolhido por ser o padrão da indústria para APIs RESTful, garantindo segurança sem a necessidade de manter estado no servidor.
+
+
+## 7. Tratamento Global de Erros (Global Exception Handling)
+**Data:** 01/05/2026
+
+**Decisão:** Utilização da nova interface `IExceptionHandler` do .NET 8 junto com o `ProblemDetails` pra capturar exceções globalmente.
+
+**Justificativa:** Centraliza o tratamento de erros, evita o vazamento de stack traces na API. Exceções de negócio (`DomainException`) são interceptadas e traduzidas para HTTP 400 (Bad Request), falhas não mapeadas retornam HTTP 500 (Internal Server Error) com mensagens padronizadas, melhorando segurança e experiência de consumo da API.
+
