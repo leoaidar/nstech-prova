@@ -1,4 +1,5 @@
 using MediatR;
+using OrderService.Domain.Constants;
 using OrderService.Domain.Enums;
 using OrderService.Domain.Exceptions;
 using OrderService.Domain.Repositories;
@@ -19,7 +20,7 @@ public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, boo
   public async Task<bool> Handle(CancelOrderCommand request, CancellationToken cancellationToken)
   {
     var order = await _orderRepository.GetByIdAsync(request.OrderId, cancellationToken);
-    if (order == null) throw new DomainException("Pedido não encontrado.");
+    if (order == null) throw new DomainException(DomainErrors.Order.NotFound);
 
     // Idempotência
     if (order.Status == OrderStatus.Canceled)
@@ -33,6 +34,7 @@ public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, boo
     // Se tava confirmado, o estoque já havia sido baixado. Precisa repor.
     bool needsStockReplenishment = previousStatus == OrderStatus.Confirmed;
     if (needsStockReplenishment)
+    {
       foreach (var item in order.Items)
       {
         var product = await _productRepository.GetByIdAsync(item.ProductId, cancellationToken);
@@ -42,6 +44,7 @@ public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, boo
           await _productRepository.UpdateAsync(product, cancellationToken);
         }
       }
+    }
 
     await _orderRepository.UpdateAsync(order, cancellationToken);
     return true;
