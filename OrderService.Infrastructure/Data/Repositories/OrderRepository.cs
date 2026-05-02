@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OrderService.Domain.Entities;
 using OrderService.Domain.Repositories;
 using OrderService.Infrastructure.Data.Context;
@@ -27,9 +27,14 @@ internal class OrderRepository : IOrderRepository
     await _context.SaveChangesAsync(cancellationToken);
   }
 
-  public async Task UpdateAsync(Order order, CancellationToken cancellationToken = default)
+  public Task UpdateAsync(Order order, CancellationToken cancellationToken = default)
   {
     _context.Orders.Update(order);
+    return Task.CompletedTask; 
+  }
+
+  public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+  {
     await _context.SaveChangesAsync(cancellationToken);
   }
 

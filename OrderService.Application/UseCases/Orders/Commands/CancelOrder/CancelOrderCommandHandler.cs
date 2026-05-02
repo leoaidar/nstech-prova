@@ -35,6 +35,7 @@ public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, boo
     bool needsStockReplenishment = previousStatus == OrderStatus.Confirmed;
     if (needsStockReplenishment)
     {
+      // Marca cada produto com estoque reposto
       foreach (var item in order.Items)
       {
         var product = await _productRepository.GetByIdAsync(item.ProductId, cancellationToken);
@@ -46,7 +47,12 @@ public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, boo
       }
     }
 
+    // Marca o Pedido com novo status 
     await _orderRepository.UpdateAsync(order, cancellationToken);
+
+    // Confirmação única — cancelamento de pedido + reposição de estoque em uma transação só
+    await _orderRepository.SaveChangesAsync(cancellationToken);
+
     return true;
   }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OrderService.Domain.Entities;
 using OrderService.Domain.Repositories;
 using OrderService.Infrastructure.Data.Context;
@@ -19,9 +19,9 @@ internal class ProductRepository : IProductRepository
     return await _context.Products.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
   }
 
-  public async Task UpdateAsync(Product product, CancellationToken cancellationToken = default)
+  public Task UpdateAsync(Product product, CancellationToken cancellationToken = default)
   {
     _context.Products.Update(product);
-    await _context.SaveChangesAsync(cancellationToken);
+    return Task.CompletedTask; 
   }
 }

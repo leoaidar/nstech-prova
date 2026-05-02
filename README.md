@@ -76,5 +76,37 @@ dotnet test
 
 *   **Logging Global:** Todas as requisições passam por um *Pipeline Behavior* do MediatR, gerando logs automáticos de tempo de execução (Stopwatch), sucesso e tratamento de exceções de maneira centralizada no console.
 *   **Health Check:** A saúde da aplicação e a conectividade em tempo real com o banco de dados podem ser validadas por orquestradores (ex: Liveness Probes do Kubernetes) acessando a rota exclusiva para infraestrutura:
-    *   👉 `GET http://localhost:8080/health`
+   * 👉 **http://localhost:8080/health**
+
+### 📸 Visão Geral da API (Swagger)
+
+Abaixo, a interface interativa gerada automaticamente onde você pode testar todos os fluxos descritos:
+
+![Swagger UI da OrderService API](./docs/swagger.png)
+
+## 💡 Exemplo de Consumo e Data Seed
+
+Para facilitar o teste de criação de pedidos sem a necessidade de popular o banco de dados manualmente, a aplicação executa um **Data Seed** automático durante a subida do container, inserindo produtos padrão no estoque.
+
+Você pode utilizar o payload abaixo diretamente no Swagger (`POST /orders`) utilizando os IDs dos produtos pré-cadastrados:
+
+```json
+{
+  "customerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "currency": "BRL",
+  "items": [
+    {
+      "productId": "11111111-1111-1111-1111-111111111111",
+      "quantity": 1
+    },
+    {
+      "productId": "22222222-2222-2222-2222-222222222222",
+      "quantity": 2
+    },
+    {
+      "productId": "33333333-3333-3333-3333-333333333333",
+      "quantity": 3
+    }
+  ]
+}
 ```

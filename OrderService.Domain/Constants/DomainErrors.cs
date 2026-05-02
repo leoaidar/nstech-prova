@@ -1,4 +1,4 @@
-﻿namespace OrderService.Domain.Constants;
+namespace OrderService.Domain.Constants;
 
 public static class DomainErrors
 {
@@ -10,6 +10,8 @@ public static class DomainErrors
     public const string OnlyPlacedOrdersCanBeConfirmed = "Apenas pedidos abertos (Placed) podem ser confirmados.";
     public const string CannotCancelInCurrentStatus = "Este pedido não pode ser cancelado no status atual.";
     public const string CannotCreateOrderWithoutItems = "Não é possível criar um pedido sem itens.";
+    public const string InvalidCustomerId = "O ID do cliente é obrigatório.";
+    public const string InvalidCurrency = "A moeda é obrigatória e deve ter exatamente 3 caracteres (ex: BRL, USD).";
     public const string NotFound = "Pedido não encontrado.";
   }
 
