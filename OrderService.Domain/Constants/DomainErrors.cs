@@ -10,6 +10,7 @@ public static class DomainErrors
     public const string OnlyPlacedOrdersCanBeConfirmed = "Apenas pedidos abertos (Placed) podem ser confirmados.";
     public const string CannotCancelInCurrentStatus = "Este pedido não pode ser cancelado no status atual.";
     public const string CannotCreateOrderWithoutItems = "Não é possível criar um pedido sem itens.";
+    public const string NotFound = "Pedido não encontrado.";
   }
 
   public static class OrderItem

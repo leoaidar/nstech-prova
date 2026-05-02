@@ -29,4 +29,9 @@
     <ProjectReference Include="..\OrderService.Api\OrderService.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Integration\Controllers\" />
+    <Folder Include="Infrastructure\" />
+  </ItemGroup>
+
 </Project>
