@@ -29,7 +29,7 @@ public class ConfirmOrderCommandHandler : IRequestHandler<ConfirmOrderCommand, b
     // Confirma o pedido no domínio
     order.Confirm();
 
-    // Baixa o estoque de cada item (requisito pede isso no Confirm)
+    // Marca cada produto com estoque atualizado
     foreach (var item in order.Items)
     {
       var product = await _productRepository.GetByIdAsync(item.ProductId, cancellationToken);
@@ -39,7 +39,12 @@ public class ConfirmOrderCommandHandler : IRequestHandler<ConfirmOrderCommand, b
       await _productRepository.UpdateAsync(product, cancellationToken);
     }
 
+    // Marca o Pedido com novo status 
     await _orderRepository.UpdateAsync(order, cancellationToken);
+
+    // Confirmação única — todos os updates (Order + Produtos) vão pro banco em uma transação só
+    await _orderRepository.SaveChangesAsync(cancellationToken);
+
     return true;
   }
 }
