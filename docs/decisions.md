@@ -76,4 +76,15 @@ Documento que centraliza as principais Observações/decisões técnicas durante
 **Justificativa:** O Docker garante isolamento e o princípio "funciona na minha máquina, funciona em produção". O `docker-compose` simplifica a subida do ambiente, permitindo testar a solução inteira (API + Database) com apenas um comando (`docker compose up -d`).
 
 
+## 10. Observabilidade, Logging Centralizado e Health Checks
+**Data:** 02/05/2026
+
+**Decisão:** A observabilidade foi tratada como uma preocupação(Cross-Cutting). Foi implementado um middleware de pipeline do MediatR (`LoggingBehavior`) pra registrar automaticamente o tempo de execução (Stopwatch), o início, o fim e as eventuais falhas de todas as requisições (Commands e Queries). Foi configurado um endpoint nativo de `/health` que valida a conexão ativa com o banco de dados.
+
+**Justificativa:** 
+A utilização do `LoggingBehavior` evita a poluição das regras de negócio e dos Handlers com injeções repetitivas de `ILogger`, respeitando o princípio DRY (Don't Repeat Yourself) e mantendo o domínio limpo. 
+
+A inclusão do Health Check torna a API *Production-Ready*, preparando o terreno pra orquestradores como (Kubernetes *Liveness* e *Readiness Probes*) e APM (Datadog, AWS ALB) consigam monitorar a saúde da aplicação e do banco de dados em tempo real. O endpoint de health foi propositalmente ocultado do Swagger por ser uma rota de consumo exclusivo de infraestrutura e máquinas, não para clientes da API. Essa fundação de Logging facilita umaa futura integração com ferramentas avançadas de telemetria, como Serilog e OpenTelemetry.
+
+
 
