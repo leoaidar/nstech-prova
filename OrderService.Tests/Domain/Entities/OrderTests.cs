@@ -5,7 +5,7 @@ using OrderService.Domain.Enums;
 using OrderService.Domain.Exceptions;
 using System;
 
-namespace OrderService.Tests.Domain;
+namespace OrderService.Tests.Domain.Entities;
 
 public class OrderTests
 {

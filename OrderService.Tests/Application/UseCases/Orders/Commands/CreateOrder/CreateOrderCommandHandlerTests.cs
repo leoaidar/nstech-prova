@@ -7,7 +7,7 @@ using OrderService.Domain.Entities;
 using OrderService.Domain.Exceptions;
 using OrderService.Domain.Repositories;
 
-namespace OrderService.Tests.Application;
+namespace OrderService.Tests.Application.UseCases.Orders.Commands.CreateOrder;
 
 public class CreateOrderCommandHandlerTests
 {
