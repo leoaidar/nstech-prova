@@ -1,4 +1,5 @@
-﻿using OrderService.Domain.Exceptions;
+﻿using OrderService.Domain.Constants;
+using OrderService.Domain.Exceptions;
 
 namespace OrderService.Domain.Entities;
 
@@ -12,8 +13,8 @@ public class Product
 
   public Product(Guid id, decimal unitPrice, int initialQuantity)
   {
-    if (unitPrice <= 0) throw new DomainException("Preço deve ser maior que zero.");
-    if (initialQuantity < 0) throw new DomainException("Quantidade inicial não pode ser negativa.");
+    if (unitPrice <= 0) throw new DomainException(DomainErrors.Product.InvalidPrice);
+    if (initialQuantity < 0) throw new DomainException(DomainErrors.Product.InvalidInitialQuantity);
 
     Id = id;
     UnitPrice = unitPrice;
@@ -22,15 +23,15 @@ public class Product
 
   public void DecreaseStock(int quantity)
   {
-    if (quantity <= 0) throw new DomainException("A quantidade a ser baixada deve ser maior que zero.");
-    if (AvailableQuantity < quantity) throw new DomainException($"Estoque insuficiente. Disponível: {AvailableQuantity}");
+    if (quantity <= 0) throw new DomainException(DomainErrors.Product.InvalidDecreaseQuantity);
+    if (AvailableQuantity < quantity) throw new DomainException(DomainErrors.Product.InsufficientStock(AvailableQuantity));
 
     AvailableQuantity -= quantity;
   }
 
   public void IncreaseStock(int quantity)
   {
-    if (quantity <= 0) throw new DomainException("A quantidade a ser reposta deve ser maior que zero.");
+    if (quantity <= 0) throw new DomainException(DomainErrors.Product.InvalidIncreaseQuantity);
     AvailableQuantity += quantity;
   }
 }

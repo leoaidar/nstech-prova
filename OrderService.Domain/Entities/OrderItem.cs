@@ -1,4 +1,5 @@
-﻿using OrderService.Domain.Exceptions;
+﻿using OrderService.Domain.Constants;
+using OrderService.Domain.Exceptions;
 
 namespace OrderService.Domain.Entities;
 
@@ -12,8 +13,8 @@ public class OrderItem
 
   public OrderItem(Guid productId, decimal unitPrice, int quantity)
   {
-    if (quantity <= 0) throw new DomainException("A quantidade do item deve ser maior que zero.");
-    if (unitPrice <= 0) throw new DomainException("O preço do item deve ser maior que zero.");
+    if (quantity <= 0) throw new DomainException(DomainErrors.OrderItem.InvalidItemQuantity);
+    if (unitPrice <= 0) throw new DomainException(DomainErrors.OrderItem.InvalidItemPrice);
 
     ProductId = productId;
     UnitPrice = unitPrice;

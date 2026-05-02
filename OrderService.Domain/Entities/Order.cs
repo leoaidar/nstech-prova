@@ -1,4 +1,5 @@
-﻿using OrderService.Domain.Enums;
+﻿using OrderService.Domain.Constants;
+using OrderService.Domain.Enums;
 using OrderService.Domain.Exceptions;
 
 namespace OrderService.Domain.Entities;
@@ -30,7 +31,7 @@ public class Order
   public void AddItem(Guid productId, decimal unitPrice, int quantity)
   {
     if (Status != OrderStatus.Draft)
-      throw new DomainException("Não é possível adicionar itens a um pedido que não está em rascunho.");
+      throw new DomainException(DomainErrors.Order.CannotAddItemsWhenNotDraft);
 
     var item = new OrderItem(productId, unitPrice, quantity);
     _items.Add(item);
@@ -40,8 +41,8 @@ public class Order
 
   public void PlaceOrder()
   {
-    if (!_items.Any()) throw new DomainException("Não é possível fechar um pedido sem itens.");
-    if (Status != OrderStatus.Draft) throw new DomainException("Apenas pedidos em rascunho podem ser abertos.");
+    if (!_items.Any()) throw new DomainException(DomainErrors.Order.CannotPlaceEmptyOrder);
+    if (Status != OrderStatus.Draft) throw new DomainException(DomainErrors.Order.OnlyDraftOrdersCanBePlaced);
 
     Status = OrderStatus.Placed;
   }
@@ -51,7 +52,7 @@ public class Order
     if (Status == OrderStatus.Confirmed) return; // Idempotência: se já está confirmado, não faz nada
 
     if (Status != OrderStatus.Placed)
-      throw new DomainException("Apenas pedidos abertos (Placed) podem ser confirmados.");
+      throw new DomainException(DomainErrors.Order.OnlyPlacedOrdersCanBeConfirmed);
 
     Status = OrderStatus.Confirmed;
   }
@@ -61,7 +62,7 @@ public class Order
     if (Status == OrderStatus.Canceled) return; // Idempotência básica no domínio
 
     if (Status != OrderStatus.Placed && Status != OrderStatus.Confirmed)
-      throw new DomainException("Este pedido não pode ser cancelado no status atual.");
+      throw new DomainException(DomainErrors.Order.CannotCancelInCurrentStatus);
 
     Status = OrderStatus.Canceled;
   }

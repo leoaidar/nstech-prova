@@ -57,3 +57,16 @@ Documento que centraliza as principais Observações/decisões técnicas durante
 
 **Justificativa:** Centraliza o tratamento de erros, evita o vazamento de stack traces na API. Exceções de negócio (`DomainException`) são interceptadas e traduzidas para HTTP 400 (Bad Request), falhas não mapeadas retornam HTTP 500 (Internal Server Error) com mensagens padronizadas, melhorando segurança e experiência de consumo da API.
 
+
+## 8. Estratégia de Qualidade e Testes (Unitários e E2E)
+**Data:** 02/05/2026
+
+**Decisão:** Adoção de uma pirâmide de testes focada no comportamento da aplicação. Utilizei o xUnit, Moq e FluentAssertions. A estratégia foi dividida em duas frentes:
+1. **Testes Unitários:** Focados no `Domain` e `Application`, validando caminhos felizes e casos alternativos (Happy Paths, Sad Paths e Exceptions) sem dependência de banco de dados.
+2. **Testes de Integração (E2E):** Utilização do `WebApplicationFactory` para testar os endpoints da API requisitando as rotas HTTP, injeção de dependência e consultas de paginação utilizando um banco de dados `SQLite In-Memory`, bypassando o JWT (`TestAuthHandler`).
+
+**Justificativa:** Testar por exemplo a camada de `Infrastructure` isoladamente com Mocks do EF Core é um *anti-pattern* que gera testes frágeis. A decisão de usar o `WebApplicationFactory` com um banco em memória garante que o banco de dados (queries complexas, paginação) sejam testadas no seu contexto real de chamada de API, garantindo 100% de confiança no fluxo ponta a ponta.
+
+
+
+
