@@ -1,4 +1,4 @@
-﻿using OrderService.Domain.Constants;
+using OrderService.Domain.Constants;
 using OrderService.Domain.Enums;
 using OrderService.Domain.Exceptions;
 
@@ -21,6 +21,9 @@ public class Order
 
   public Order(Guid customerId, string currency)
   {
+    if (customerId == Guid.Empty) throw new DomainException(DomainErrors.Order.InvalidCustomerId);
+    if (string.IsNullOrWhiteSpace(currency) || currency.Length != 3) throw new DomainException(DomainErrors.Order.InvalidCurrency);
+
     Id = Guid.NewGuid();
     CustomerId = customerId;
     Currency = currency;
