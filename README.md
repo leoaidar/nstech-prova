@@ -32,7 +32,7 @@ O projeto foi configurado para rodar de forma simples e direta utilizando contai
 
 1. Clone este repositório:
    ```bash
-   git clone [https://github.com/leoaidar/nstech-prova.git](https://github.com/leoaidar/nstech-prova.git)
+   git clone https://github.com/leoaidar/nstech-prova.git
    cd nstech-prova
    ```
 
