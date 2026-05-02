@@ -98,7 +98,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Aplica as migrations pendentes automaticamente ao iniciar a aplicação
-app.ApplyMigrations();
+// Aplica as migrations automaticamente (EXCETO nos testes, pois o SQLite não suporta as migrations do Postgres)
+if (app.Environment.EnvironmentName != "Testing")
+{
+  app.ApplyMigrations();
+}
 
 app.Run();
+public partial class Program { }
