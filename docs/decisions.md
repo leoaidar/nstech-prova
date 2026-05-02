@@ -33,3 +33,11 @@ Documento que centraliza as principais Observações/decisões técnicas durante
 
 **Justificativa:** Manter o projeto `Domain` sem referência ao pacote do Entity Framework Core. O uso de (`OwnsMany`) reflete o conceito de DDD onde o `OrderItem` não possui ciclo de vida fora de sua raiz (`Order`).
 
+
+## 5. Idempotência e CQRS
+**Data:** 01/05/2026
+
+**Decisão:** O padrão CQRS foi implementado utilizando `MediatR` para separar as leituras (Queries) e escritas (Commands). A idempotência exigida nos endpoints de Confirmação e Cancelamento foi resolvida via **Estado da Entidade**, retornando sucesso precoce, caso a transição de estado já foi efetuada anteriormente.
+
+**Justificativa:** Tratar a idempotência verificando o estado atual da entidade (`Order.Status`) evita duplicação de processamento (como baixar o estoque duas vezes) sem a necessidade de introduzir complexidade de infra, como tabelas de chaves de idempotência ou cache distribuído.
+
