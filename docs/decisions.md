@@ -68,5 +68,12 @@ Documento que centraliza as principais Observações/decisões técnicas durante
 **Justificativa:** Testar por exemplo a camada de `Infrastructure` isoladamente com Mocks do EF Core é um *anti-pattern* que gera testes frágeis. A decisão de usar o `WebApplicationFactory` com um banco em memória garante que o banco de dados (queries complexas, paginação) sejam testadas no seu contexto real de chamada de API, garantindo 100% de confiança no fluxo ponta a ponta.
 
 
+## 9. Containerização Docker
+**Data:** 02/05/2026
+
+**Decisão:** A aplicação foi empacotada utilizando o Docker com a estratégia de *Multi-Stage Build* do .NET 8. Orquestração dos containers (API + Banco de Dados PostgreSQL) é definida pelo `docker-compose.yml`. As Migrations do banco de dados são aplicadas de forma automática durante a inicialização do container da API.
+
+**Justificativa:** O Docker garante isolamento e o princípio "funciona na minha máquina, funciona em produção". O `docker-compose` simplifica a subida do ambiente, permitindo testar a solução inteira (API + Database) com apenas um comando (`docker compose up -d`).
+
 
 
