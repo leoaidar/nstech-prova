@@ -76,7 +76,7 @@ dotnet test
 
 *   **Logging Global:** Todas as requisições passam por um *Pipeline Behavior* do MediatR, gerando logs automáticos de tempo de execução (Stopwatch), sucesso e tratamento de exceções de maneira centralizada no console.
 *   **Health Check:** A saúde da aplicação e a conectividade em tempo real com o banco de dados podem ser validadas por orquestradores (ex: Liveness Probes do Kubernetes) acessando a rota exclusiva para infraestrutura:
-    *   👉 `GET http://localhost:8080/health`
+   * 👉 **http://localhost:8080/health**
 
 ### 📸 Visão Geral da API (Swagger)
 
