@@ -106,7 +106,7 @@ public class OrderTests
 
   #endregion FIM CAMINHO FELIZ
 
-  #region EXCEÇÕES DO DOMÍNIO
+  #region EXCECOES DO DOMINIO
 
   [Fact]
   public void AddItem_With_Zero_Quantity_Should_Throw_DomainException()
@@ -210,5 +210,5 @@ public class OrderTests
           .WithMessage(DomainErrors.Order.CannotCancelInCurrentStatus);
   }
 
-  #endregion
+  #endregion FIM EXCECOES DO DOMINIO
 }

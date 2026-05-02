@@ -23,6 +23,7 @@ public static class DomainErrors
     public const string InvalidPrice = "Preço deve ser maior que zero.";
     public const string InvalidInitialQuantity = "Quantidade inicial não pode ser negativa.";
     public const string InvalidDecreaseQuantity = "A quantidade a ser baixada deve ser maior que zero.";
+    public const string InvalidIncreaseQuantity = "A quantidade a ser reposta deve ser maior que zero.";
     public static string NotFound(Guid id) => $"Produto com ID {id} não encontrado.";
     public static string InsufficientStockForOrder(Guid id, int available) => $"Estoque insuficiente para o produto {id}. Disponivel: {available}";
     public static string InsufficientStock(int available) => $"Estoque insuficiente. Disponivel: {available}";
