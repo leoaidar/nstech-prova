@@ -1,6 +1,8 @@
 <Solution>
   <Folder Name="/Itens de Solução/">
     <File Path="Directory.Build.props" />
+    <File Path="docker-compose.yml" />
+    <File Path="Dockerfile" />
   </Folder>
   <Project Path="OrderService.Api/OrderService.Api.csproj" />
   <Project Path="OrderService.Application/OrderService.Application.csproj" Id="5eb577ab-3eb0-4a4f-ad04-cadecfd87bda" />
