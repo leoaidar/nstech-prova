@@ -32,4 +32,35 @@ internal class OrderRepository : IOrderRepository
     _context.Orders.Update(order);
     await _context.SaveChangesAsync(cancellationToken);
   }
+
+  public async Task<(IEnumerable<Order> Orders, int TotalCount)> GetPagedAsync(
+      Guid? customerId, Domain.Enums.OrderStatus? status, DateTime? from, DateTime? to, int page, int pageSize, CancellationToken cancellationToken = default)
+  {
+    var query = _context.Orders
+        .AsNoTracking() 
+        .Include(o => o.Items)
+        .AsQueryable();
+
+    if (customerId.HasValue)
+      query = query.Where(o => o.CustomerId == customerId.Value);
+
+    if (status.HasValue)
+      query = query.Where(o => o.Status == status.Value);
+
+    if (from.HasValue)
+      query = query.Where(o => o.CreatedAt >= from.Value);
+
+    if (to.HasValue)
+      query = query.Where(o => o.CreatedAt <= to.Value);
+
+    var totalCount = await query.CountAsync(cancellationToken);
+
+    var orders = await query
+        .OrderByDescending(o => o.CreatedAt)
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
+        .ToListAsync(cancellationToken);
+
+    return (orders, totalCount);
+  }
 }

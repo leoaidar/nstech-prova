@@ -48,7 +48,11 @@ public class Order
 
   public void Confirm()
   {
-    if (Status != OrderStatus.Placed) throw new DomainException("Apenas pedidos abertos (Placed) podem ser confirmados.");
+    if (Status == OrderStatus.Confirmed) return; // Idempotência: se já está confirmado, não faz nada
+
+    if (Status != OrderStatus.Placed)
+      throw new DomainException("Apenas pedidos abertos (Placed) podem ser confirmados.");
+
     Status = OrderStatus.Confirmed;
   }
 
